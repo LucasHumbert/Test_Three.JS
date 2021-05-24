@@ -66,12 +66,37 @@ lune.position.setX(-10)
 lune.position.setZ(30)
 scene.add(lune);
 
+var text = "";
+var fontLoader = new THREE.FontLoader();
+fontLoader.load("/helvetiker_regular.typeface.json",function(tex){ 
+    var  textGeo = new THREE.TextGeometry('Lorem \n Ipsum', {
+            size: 10,
+            height: 5,
+            curveSegments: 6,
+            font: tex,
+    });
+    var  color = new THREE.Color();
+    color.setRGB(255, 250, 250);
+    var  textMaterial = new THREE.MeshBasicMaterial({ color: color });
+    text = new THREE.Mesh(textGeo , textMaterial);
+    text.position.set(35, -12, -100)
+    text.rotation.y -= 0.5
+    text.rotation.x -= 0.2    
+    text.rotation.z -= 0.1 
+    scene.add(text);
+})
+
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+})
+
 function moveCamera(){
     const t = document.body.getBoundingClientRect().top;
 
-    lune.rotation.x += 0.05;
+  
     lune.rotation.y += 0.075;
-    lune.rotation.z += 0.05;
 
     camera.position.z = t * -0.01;
     camera.position.x = t * -0.0002;
@@ -83,16 +108,9 @@ moveCamera();
 
 function animate(){
     requestAnimationFrame( animate );
-
-    torus.rotation.x += 0.01;
-    torus.rotation.y += 0.005;
-    torus.rotation.z += 0.01;
-
     jul.rotation.y += 0.01;
     jul.rotation.z += 0.01;
-
     //controls.update();
-
     renderer.render(scene, camera);
 }
 
