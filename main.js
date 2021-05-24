@@ -28,9 +28,9 @@ scene.add(pointLight, ambientLight);
 const gridHelper = new THREE.GridHelper(200, 50);
 
 scene.add(gridHelper);
-*/
-const controls = new OrbitControls( camera, renderer.domElement );
 
+const controls = new OrbitControls( camera, renderer.domElement );
+*/
 
 function addStar(){
     const geometry = new THREE.SphereGeometry(0.25, 24, 24);
@@ -52,7 +52,7 @@ const jul = new THREE.Mesh(
     new THREE.BoxGeometry(3, 3, 3),
     new THREE.MeshBasicMaterial({ map: julTexture })
 );
-jul.position.set(20, 10, 10)
+jul.position.set(10, 5, -35)
 scene.add(jul);
 
 
@@ -69,19 +69,17 @@ scene.add(lune);
 function moveCamera(){
     const t = document.body.getBoundingClientRect().top;
 
-    moon.rotation.x += 0.05;
-    moon.rotation.y += 0.075;
-    moon.rotation.z += 0.05;
-
-    jul.rotation.y += 0.01;
-    jul.rotation.z += 0.01;
+    lune.rotation.x += 0.05;
+    lune.rotation.y += 0.075;
+    lune.rotation.z += 0.05;
 
     camera.position.z = t * -0.01;
     camera.position.x = t * -0.0002;
-    camera.position.y = t * -0.0002;
+    camera.rotation.y = t * -0.0002;
 }
 
-document.getElementById('main').onscroll = moveCamera;
+document.body.onscroll = moveCamera;
+moveCamera();
 
 function animate(){
     requestAnimationFrame( animate );
@@ -90,7 +88,10 @@ function animate(){
     torus.rotation.y += 0.005;
     torus.rotation.z += 0.01;
 
-    controls.update();
+    jul.rotation.y += 0.01;
+    jul.rotation.z += 0.01;
+
+    //controls.update();
 
     renderer.render(scene, camera);
 }
